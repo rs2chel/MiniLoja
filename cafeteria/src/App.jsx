@@ -1,17 +1,16 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import NavBar from './components/NavBar'
+import React, { useState } from "react";
+import NavBar from "./components/NavBar";
+import cardapio from "./data/Data";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [carrinho, setCarrinho] = useState([]);
+  const [valorTotal, setValorTotal] = useState(0);
 
   return (
-    <>
-      <NavBar/>
-    </>
-  )
+    <div>
+      <NavBar produtos={cardapio} carrinho={carrinho} valorTotal={valorTotal} />
+    </div>
+  );
 }
 
-export default App
+export default App;
