@@ -62,7 +62,8 @@ const cardapio = {
         "https://media.istockphoto.com/id/1557161201/pt/foto/coffee-cup.jpg?s=612x612&w=0&k=20&c=4CVUF3ALEHaRxK77fA9jcOhvScL3sVYVGlYQcnRQgGs=",
       tamanhos: [
         { tipo: "Pequeno", ml: 30, preco: 7.9 },
-        { tipo: "Duplo", ml: 60, preco: 10.9 },
+        { tipo: "Normal", ml: 60, preco: 10.9 },
+        { tipo: "Duplo", ml: 120, preco: 13.9 },
       ],
     },
     {
@@ -71,6 +72,7 @@ const cardapio = {
       imagem:
         "https://media.istockphoto.com/id/523168994/pt/foto/capuccino-com-gr%C3%A3os-de-caf%C3%A9.jpg?s=612x612&w=0&k=20&c=9AKVQ2eLtKetoza_DzDbEDX6LikQlFLx7bsVfWDg5hI=",
       tamanhos: [
+        { tipo: "Pequeno", ml: 30, preco: 7.9 },
         { tipo: "Normal", ml: 250, preco: 12.9 },
         { tipo: "Grande", ml: 350, preco: 15.9 },
       ],
@@ -100,6 +102,7 @@ const cardapio = {
       imagem:
         "https://media.istockphoto.com/id/521618573/pt/foto/chocolate-quente.jpg?s=612x612&w=0&k=20&c=NaUTVrN-194OaD60J4WnGfQAT5sgmj1yWIaLYC5tQA4=",
       tamanhos: [
+        { tipo: "Pequeno", ml: 100, preco: 10.9 },
         { tipo: "Normal", ml: 250, preco: 15.9 },
         { tipo: "Grande", ml: 350, preco: 17.9 },
       ],
@@ -109,7 +112,10 @@ const cardapio = {
       nome: "Matchá Latte",
       imagem:
         "https://media.istockphoto.com/id/1218959751/pt/foto/two-cups-dalgona-matcha-latte-a-creamy-whipped-matcha-on-light-background-matcha-green-tea.jpg?s=612x612&w=0&k=20&c=BJ62HSlbggiXf5OyIoz5ucXy2R85mTLif4IgBlp-ZD4=",
-      tamanhos: [{ tipo: "Normal", ml: 250, preco: 17.9 }],
+      tamanhos: [
+        { tipo: "Pequeno", ml: 100, preco: 10.9 },
+        { tipo: "Normal", ml: 250, preco: 15.9 },
+        { tipo: "Grande", ml: 350, preco: 17.9 },],
       observacao: "Feito com leite de aveia, pode trocar para leite de vaca",
     },
     {
@@ -124,28 +130,36 @@ const cardapio = {
       nome: "Suco Natural de Laranja",
       imagem:
         "https://media.istockphoto.com/id/507211196/pt/foto/copo-de-suco-de-laranja-em-madeira-em-campo.jpg?s=612x612&w=0&k=20&c=RvtQpZ6SvHBXpCiROOnFNPz-BrtWRD6iiGDqOo9pboU=",
-      tamanhos: [{ tipo: "Copo Único", ml: 300, preco: 10.9 }],
+
+      tamanhos: [
+        { tipo: "100ml", ml: 100, preco: 4.5 },
+        { tipo: "300ml", ml: 300, preco: 10.9 },
+        { tipo: "500ml", ml: 500, preco: 14.9 },
+      ],
     },
     {
       id: 208,
       nome: "Chocolate Quente",
       imagem:
         "https://media.istockphoto.com/id/2164391807/pt/foto/close-up-of-drink-on-table.jpg?s=612x612&w=0&k=20&c=89o5BQUuG1-LIebw0yEyPU8OjbGIgIp43rRhWfS7LXE=",
+      // adicionei opções 100/300/500 (mantive preços próximos aos originais)
       tamanhos: [
-        { tipo: "Normal", ml: 250, preco: 13.9 },
-        { tipo: "Grande", ml: 350, preco: 16.9 },
+        { tipo: "100ml", ml: 100, preco: 4.9 },
+        { tipo: "300ml", ml: 300, preco: 13.9 },
+        { tipo: "500ml", ml: 500, preco: 16.9 },
       ],
     },
 
-    // NOVOS TIPOS DE CAFÉ
+    // NOVOS TIPOS DE CAFÉ (preservados como você tinha)
     {
       id: 209,
       nome: "Macchiato",
       imagem:
         "https://media.istockphoto.com/id/1185895072/pt/foto/caramel-bru%CC%82le%CC%81e-coffees-in-glass-mugs.jpg?s=612x612&w=0&k=20&c=ou4Co41k3dlxfLjJ_KkhCwD9i1JZNHk_Bnfg-tD097I=",
       tamanhos: [
-        { tipo: "Pequeno", ml: 60, preco: 9.9 },
-        { tipo: "Duplo", ml: 90, preco: 12.9 },
+        { tipo: "Pequeno", ml: 100, preco: 9.9 },
+        { tipo: "Normal", ml: 200, preco: 11.9 },
+        { tipo: "Duplo", ml: 300, preco: 14.9 },
       ],
       observacao: "Espresso com um toque de espuma de leite",
     },
@@ -155,6 +169,7 @@ const cardapio = {
       imagem:
         "https://media.istockphoto.com/id/2224630445/pt/foto/hot-cofffee-cappuccino-coffee-or-latte-coffee-or-flat-white-or-latte-art.jpg?s=612x612&w=0&k=20&c=uSnthPJcekjwiXP0AlV61ZMPO5Jso9775vDIRupZvco=",
       tamanhos: [
+        { tipo: "Pequeno", ml: 100, preco: 12.9 },
         { tipo: "Normal", ml: 200, preco: 14.9 },
         { tipo: "Grande", ml: 300, preco: 17.9 },
       ],
@@ -253,8 +268,8 @@ const cardapio = {
     },
     {
       id: 403,
-      nome: "Brownie com soverte de Baunilha e cobertura de chocolate",
-      descricao: "Bem chocolatudo com ganache de chocolate",
+      nome: "Brownie com Sorvete",
+      descricao: "Brownie quente com sorvete de baunilha",
       imagem:
         "https://media.istockphoto.com/id/160946353/pt/foto/brownie-com-gelado-de-baunilha.jpg?s=612x612&w=0&k=20&c=s7yMH7odHFLuUl4H3FN5ELjtf9Y7jFvS0cKMGkqN40U=",
       preco: 14.9,

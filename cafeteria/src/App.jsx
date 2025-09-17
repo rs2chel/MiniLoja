@@ -1,15 +1,14 @@
-import React, { useState } from "react";
-import NavBar from "./components/NavBar";
-import cardapio from "./data/Data";
-
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Carrinho from "./pages/Carrinho";
 function App() {
-  const [carrinho, setCarrinho] = useState([]);
-  const [valorTotal, setValorTotal] = useState(0);
-
   return (
-    <div>
-      <NavBar produtos={cardapio} carrinho={carrinho} valorTotal={valorTotal} />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/carrinho" element={<Carrinho />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

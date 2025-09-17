@@ -1,38 +1,50 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import ModalProdutoPortal from "./Detalhes";
 
-function CardProducts({ imagem, titulo, valor, descricao, onAddToCart }) {
-  const [quantidade, setQuantidade] = useState(0);
+function CardProducts({ produtos }) {
+  const [produtoSelecionado, setProdutoSelecionado] = useState(null);
 
-  function handleAddToCart() {
-    if (quantidade > 0) {
-      onAddToCart({
-        titulo,
-        valor,
-        quantidade,
-        total: quantidade * valor,
-      });
-      setQuantidade(0); // reseta depois de adicionar
-    }
-  }
+  const abrirModal = (produto) => setProdutoSelecionado(produto);
+  const fecharModal = () => setProdutoSelecionado(null);
+  const handleAdicionar = (produto) => {
+    fecharModal();
+  };
+
+  if (!produtos || produtos.length === 0)
+    return <p>Nenhum produto disponível</p>;
 
   return (
     <div>
-      <img src={imagem} alt={titulo} />
-      <p>{titulo}</p>
-      <p>{descricao}</p>
-      <p>R$ {valor ? valor.toFixed(2) : "0,00"}</p>
-
-      <div>
-        <button onClick={() => setQuantidade(quantidade + 1)}>+</button>
-        <p>{quantidade}</p>
-        <button onClick={() => setQuantidade(Math.max(0, quantidade - 1))}>
-          -
-        </button>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+        {produtos.map((item) => (
+          <div
+            key={item.id}
+            className="CardItens"
+            style={{
+              border: "1px solid #ccc",
+              borderRadius: "8px",
+              padding: "15px",
+              width: "220px",
+              cursor: "pointer",
+            }}
+            onClick={() => abrirModal(item)}
+          >
+            <img
+              src={item.imagem}
+              alt={item.nome}
+              style={{ width: "100%", borderRadius: "5px" }}
+            />
+            <h3>{item.nome}</h3>
+            {item.preco && <p>Preço: R$ {item.preco.toFixed(2)}</p>}
+          </div>
+        ))}
       </div>
 
-      <button onClick={handleAddToCart} disabled={quantidade === 0}>
-        Adicionar ao Carrinho
-      </button>
+      <ModalProdutoPortal
+        produto={produtoSelecionado}
+        fecharModal={fecharModal}
+        aoAdicionar={handleAdicionar}
+      />
     </div>
   );
 }
