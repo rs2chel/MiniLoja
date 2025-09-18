@@ -1,0 +1,25 @@
+.header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+}
+
+.voltar {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.voltar:hover {
+    transform: scale(1.1);
+}
+
+.titulo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}

@@ -1,26 +1,41 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "./Carrinho.module.css";
+import headerStyles from "./CarrinhoHeader.module.css";
 
 function Carrinho() {
   const [carrinho, setCarrinho] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  // Pega os produtos do localStorage ao montar
   useEffect(() => {
-    const produtos = JSON.parse(localStorage.getItem("carrinho")) || [];
-    // adiciona quantidade inicial 1 se não tiver
-    const produtosComQtd = produtos.map((p) => ({
-      ...p,
-      quantidade: p.quantidade || 1,
-    }));
-    setCarrinho(produtosComQtd);
+    // Simula atraso (se você estiver usando skeleton)
+    setTimeout(() => {
+      const produtos = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+      // Deduplicar por id: soma quantidades de itens com mesmo id
+      const mapa = {};
+      produtos.forEach((p) => {
+        const id = p.id;
+        const qtd = Number(p.quantidade) || 1;
+        if (!mapa[id]) {
+          mapa[id] = { ...p, quantidade: qtd };
+        } else {
+          mapa[id].quantidade = (Number(mapa[id].quantidade) || 0) + qtd;
+        }
+      });
+
+      const produtosComQtd = Object.values(mapa);
+      setCarrinho(produtosComQtd);
+      setLoading(false); // se você usa loading
+    }, 800);
   }, []);
 
-  // Atualiza o localStorage
   function atualizarLocalStorage(novoCarrinho) {
     setCarrinho(novoCarrinho);
     localStorage.setItem("carrinho", JSON.stringify(novoCarrinho));
   }
 
-  // Aumentar quantidade
   function adicionarQuantidade(id) {
     const novosProdutos = carrinho.map((item) =>
       item.id === id ? { ...item, quantidade: item.quantidade + 1 } : item
@@ -28,7 +43,6 @@ function Carrinho() {
     atualizarLocalStorage(novosProdutos);
   }
 
-  // Diminuir quantidade
   function diminuirQuantidade(id) {
     const novosProdutos = carrinho.map((item) =>
       item.id === id
@@ -38,49 +52,91 @@ function Carrinho() {
     atualizarLocalStorage(novosProdutos);
   }
 
-  // Remover item
   function removerDoCarrinho(id) {
     const novosProdutos = carrinho.filter((item) => item.id !== id);
     atualizarLocalStorage(novosProdutos);
   }
 
-  // Valor total
   const valorTotal = carrinho.reduce(
     (acc, item) => acc + item.preco * item.quantidade,
     0
   );
 
-  if (carrinho.length === 0) return <p>Seu carrinho está vazio</p>;
-
   return (
-    <div>
-      <h1>Meu Carrinho</h1>
-      {carrinho.map((item) => (
-        <div
-          key={item.id}
-          style={{
-            display: "flex",
-            gap: "10px",
-            alignItems: "center",
-            marginBottom: "10px",
-          }}
+    <div className={styles.container}>
+      {/* HEADER DA PÁGINA */}
+      <header className={headerStyles.header}>
+        <button
+          className={headerStyles.voltar}
+          onClick={() => navigate("/")}
+          aria-label="Voltar para a Home"
         >
-          <img src={item.imagem} alt={item.nome} width={50} />
-          <div>
-            <p>{item.nome}</p>
-            <p>R$ {item.preco}</p>
-          </div>
+          🏠
+        </button>
+        <h1 className={headerStyles.titulo}>Meu Carrinho</h1>
+      </header>
 
-          <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-            <button onClick={() => diminuirQuantidade(item.id)}>-</button>
-            <span>{item.quantidade}</span>
-            <button onClick={() => adicionarQuantidade(item.id)}>+</button>
-          </div>
-
-          <button onClick={() => removerDoCarrinho(item.id)}>Remover</button>
+      {/* SKELETON ENQUANTO CARREGA */}
+      {loading ? (
+        <div className={styles.skeletonWrapper}>
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className={styles.skeletonItem}></div>
+          ))}
         </div>
-      ))}
-      <h3>Total: R$ {valorTotal.toFixed(2)}</h3>
+      ) : carrinho.length === 0 ? (
+        <p className={styles.vazio}>Seu carrinho está vazio</p>
+      ) : (
+        <>
+          <div role="list" className={styles.lista}>
+            {carrinho.map((item) => (
+              <div key={item.id} role="listitem" className={styles.item}>
+                <img src={item.imagem} alt={item.nome} className={styles.img} />
+
+                <div className={styles.info}>
+                  <p className={styles.nome}>{item.nome}</p>
+                  <p className={styles.preco}>R$ {item.preco}</p>
+                </div>
+
+                <div className={styles.qtdContainer}>
+                  <button
+                    className={styles.qtdBotao}
+                    onClick={() => diminuirQuantidade(item.id)}
+                    aria-label={`Diminuir quantidade de ${item.nome}`}
+                  >
+                    -
+                  </button>
+                  <span>{item.quantidade}</span>
+                  <button
+                    className={styles.qtdBotao}
+                    onClick={() => adicionarQuantidade(item.id)}
+                    aria-label={`Aumentar quantidade de ${item.nome}`}
+                  >
+                    +
+                  </button>
+                </div>
+
+                <button
+                  className={styles.remover}
+                  onClick={() => removerDoCarrinho(item.id)}
+                  aria-label={`Remover ${item.nome} do carrinho`}
+                >
+                  Remover
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <h3 className={styles.total}>Total: R$ {valorTotal.toFixed(2)}</h3>
+
+          {/* BOTÃO FINALIZAR PEDIDO */}
+          <button
+            className={styles.finalizar}
+            onClick={() => alert("Pedido finalizado!")}
+          >
+            Finalizar Pedido
+          </button>
+        </>
+      )}
     </div>
   );
 }

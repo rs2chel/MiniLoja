@@ -14,19 +14,34 @@ export default function Home() {
 
   const produtosFiltrados = cardapio[abaAtiva.toLowerCase()] || [];
 
-  // Atualiza quantidade ao carregar a tela
   useEffect(() => {
     const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
     setQuantidadeCarrinho(carrinho.length);
   }, []);
 
-  // Função para adicionar ao carrinho
   function aoAdicionar(produto) {
     const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-    carrinho.push(produto);
-    localStorage.setItem("carrinho", JSON.stringify(carrinho));
+    const qtdAdicionar = produto.quantidade ? Number(produto.quantidade) : 1;
+    const indexExistente = carrinho.findIndex((p) => p.id === produto.id);
 
-    setQuantidadeCarrinho(carrinho.length);
+    if (indexExistente > -1) {
+      const itemExistente = carrinho[indexExistente];
+      const novaQtd = (Number(itemExistente.quantidade) || 1) + qtdAdicionar;
+      carrinho[indexExistente] = {
+        ...itemExistente,
+        quantidade: novaQtd,
+      };
+    } else {
+      carrinho.push({
+        ...produto,
+        quantidade: qtdAdicionar,
+      });
+    }
+
+    localStorage.setItem("carrinho", JSON.stringify(carrinho));
+    setQuantidadeCarrinho(
+      carrinho.reduce((s, it) => s + (Number(it.quantidade) || 0), 0)
+    );
     setProdutoSelecionado(null);
   }
 
@@ -38,11 +53,14 @@ export default function Home() {
         setAbaAtiva={setAbaAtiva}
         className="nav"
       />
-      <Tela
-        produtos={produtosFiltrados}
-        selecionar={setProdutoSelecionado}
-        className="tela"
-      />
+      <div class="grid grid-cols-3 gap-4 justify-items-stretch p-2 bg-gray-900 max-w-md">
+        <Tela
+          produtos={produtosFiltrados}
+          selecionar={setProdutoSelecionado}
+          className="tela"
+        />
+      </div>
+
       <Footer className="footer" />
       <Detalhes
         produto={produtoSelecionado}

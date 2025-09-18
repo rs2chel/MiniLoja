@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ModalProdutoPortal from "./Detalhes";
 
 function CardProducts({ produtos }) {
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);

@@ -1,6 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Carrinho from "./pages/Carrinho";
+import "./Styles/ModalProdutoPortal.css";
+// Css globol utilizado na tela modal
 function App() {
   return (
     <BrowserRouter>
