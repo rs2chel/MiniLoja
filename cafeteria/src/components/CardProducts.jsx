@@ -14,18 +14,12 @@ function CardProducts({ produtos }) {
 
   return (
     <div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+      <div>
         {produtos.map((item) => (
           <div
             key={item.id}
             className="CardItens"
-            style={{
-              border: "1px solid #ccc",
-              borderRadius: "8px",
-              padding: "15px",
-              width: "220px",
-              cursor: "pointer",
-            }}
+            s
             onClick={() => abrirModal(item)}
           >
             <img
